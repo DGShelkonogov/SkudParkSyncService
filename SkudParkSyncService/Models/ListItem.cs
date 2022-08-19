@@ -10,6 +10,7 @@ namespace SkudParkSyncService.Models
     public class ListItem : INotifyPropertyChanged
     {
         string title;
+        int id;
         List<string> items;
 
         public string Title
@@ -19,6 +20,16 @@ namespace SkudParkSyncService.Models
             {
                 title = value;
                 OnPropertyChanged("Title");
+            }
+        }
+
+        public int Id
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+                OnPropertyChanged("Id");
             }
         }
 

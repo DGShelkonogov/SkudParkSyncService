@@ -8,7 +8,7 @@ namespace SkudParkSyncService.Services
 {
     public class FireBirdConnections
     {
-        public static FbConnection GetFbConnection()
+        public static FbConnection GetConnection()
         {
             if (File.Exists(MainWindow.PathToAppsettings))
             {

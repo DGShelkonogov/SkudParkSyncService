@@ -1,4 +1,5 @@
 ﻿using SkudParkSyncService.Models;
+using SkudParkSyncService.Services;
 using System.Collections.Generic;
 using System.Windows.Controls;
 
@@ -22,25 +23,12 @@ namespace SkudParkSyncService.Pages
                 "18"
             };
 
-            List<ListItem> listItems = new List<ListItem>
-            {
-                new ListItem()
-                {
-                    Title = "1",
-                    Items = l
-                },
-                new ListItem()
-                {
-                    Title = "2",
-                    Items = l
-                },
-                new ListItem()
-                {
-                    Title = "3",
-                    Items = l
-                }
-            };
+            updateList();
+        }
 
+        public async void updateList()
+        {
+            var listItems = await MSSQLConnection.getParking();
             ListBoxParkingRack.ItemsSource = listItems;
         }
     }

@@ -14,8 +14,6 @@ namespace SkudParkSyncService
         public MainWindow()
         {
             InitializeComponent();
-
-            MSSQLConnection.testConnections();
             CheckConnectionStatus();
 
             if (!File.Exists(PathToAppsettings))

@@ -16,5 +16,5 @@ C:\Users\dana\source\repos\SkudParkSyncService\SkudParkSyncService\App.xaml
 1591056606292
 MainWindow.xaml;Pages\ConfigSkudParkSyncServicePage.xaml;Pages\FireBirdSettingsPage.xaml;Pages\MSSQLSettingsPage.xaml;Pages\SkudParkSyncServiceControlPage.xaml;
 
-True
+False
 
