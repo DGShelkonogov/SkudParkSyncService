@@ -23,12 +23,12 @@ namespace SkudParkSyncService.Pages
         public MSSQLSettingsPage()
         {
             InitializeComponent();
+
             cmbServerType.ItemsSource = _serverTypes;
             gridUserPassword.IsEnabled = false;
             FillFields();
         }
 
-       
         public SqlConnectionStringBuilder СreateSqlConnectionStringBuilder()
         {
             var connectionString = new SqlConnectionStringBuilder()
@@ -47,7 +47,6 @@ namespace SkudParkSyncService.Pages
             }
             return connectionString;
         }
-
 
         private async void ButtonClickCheckConnection(object sender, RoutedEventArgs e)
         {
@@ -71,7 +70,6 @@ namespace SkudParkSyncService.Pages
             }
         }
 
-
         private async void ButtonClickAccept(object sender, RoutedEventArgs e)
         {
             var connectionStringBuilder = СreateSqlConnectionStringBuilder();
@@ -82,7 +80,6 @@ namespace SkudParkSyncService.Pages
             var window = (MainWindow)Window.GetWindow(this);
             await window.CheckMSSQLConnectionStatus();
         }
-
 
         private void CmbServerTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -98,7 +95,6 @@ namespace SkudParkSyncService.Pages
                 txtAddress.Text = "localhost";
             }
         }
-
 
         public void FillFields()
         {

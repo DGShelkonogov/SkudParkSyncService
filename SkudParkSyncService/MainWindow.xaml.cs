@@ -1,6 +1,5 @@
 ﻿using SkudParkSyncService.Models;
 using SkudParkSyncService.Services;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,7 +32,7 @@ namespace SkudParkSyncService
                     "\"System\": \"Information\", " +
                     "\"Microsoft\": \"None\", \"Microsoft.Hosting.Lifetime\": \"Warning\" } } } ";
 
-                FileInfo fi = new FileInfo(PathToAppsettings);
+                var fi = new FileInfo(PathToAppsettings);
                 using (StreamWriter sw = fi.CreateText())
                 {
                     sw.WriteLine(output);

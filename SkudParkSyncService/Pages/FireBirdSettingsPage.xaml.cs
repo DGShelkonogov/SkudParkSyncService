@@ -13,8 +13,6 @@ using System.Windows.Media;
 
 namespace SkudParkSyncService.Pages
 {
-
-
     public partial class FireBirdSettingsPage : Page
     {
         private ObservableCollection<ServerType> _serverTypes = new ObservableCollection<ServerType>()
@@ -22,7 +20,6 @@ namespace SkudParkSyncService.Pages
             ServerType.LOCAL,
             ServerType.REMOTE
         };
-
 
         public FireBirdSettingsPage()
         {

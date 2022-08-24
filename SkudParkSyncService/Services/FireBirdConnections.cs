@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace SkudParkSyncService.Services
 {
@@ -71,12 +70,10 @@ namespace SkudParkSyncService.Services
             {
                 return DBConnectionStatus.MISSING;
             }
-
             return DBConnectionStatus.OPEN;
         }
 
-
-        public static List<PassagePoint> getPassagePoints()
+        public static List<PassagePoint> GetPassagePoints()
         {
             var list = new List<PassagePoint>();
             var connection = GetConnection();
@@ -84,9 +81,10 @@ namespace SkudParkSyncService.Services
             {
                 try
                 {
-                    // Открываем подключение
                     connection.OpenAsync();
-                    var command = new FbCommand("select d.id_dev, d.name from device d where d.id_reader is not null", connection);
+                    var command = 
+                        new FbCommand("select d.id_dev, d.name from device d where d.id_reader is not null", 
+                        connection);
 
                     using (FbDataReader reader = command.ExecuteReader())
                     {
@@ -103,9 +101,9 @@ namespace SkudParkSyncService.Services
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    MessageBox.Show(ex.Message);
+                    
                 }
                 connection.Close();
             }

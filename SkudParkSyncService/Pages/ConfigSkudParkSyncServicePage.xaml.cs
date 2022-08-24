@@ -1,10 +1,8 @@
 ﻿using SkudParkSyncService.Models;
 using SkudParkSyncService.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,37 +17,35 @@ namespace SkudParkSyncService.Pages
         public ConfigSkudParkSyncServicePage()
         {
             InitializeComponent();
-            updateList();
-
-            
+            UpdateList();
         }
 
-
-        public async void updateList()
+        public async void UpdateList()
         {
             await Task.Run(() => {
-                var points = FireBirdConnections.getPassagePoints();
-                _listItems = MSSQLConnection.getParking(points);
+                var points = FireBirdConnections.GetPassagePoints();
+                _listItems = MSSQLConnection.GetParking(points);
             });
             ListBoxParkingRack.ItemsSource = _listItems;
         }
 
         private void ComboBoxTextChanged(object sender, TextChangedEventArgs e)
         {
-            ComboBox cmb = sender as ComboBox;
+            var cmb = sender as ComboBox;
             cmb.IsDropDownOpen = true;
-            var tb = (TextBox)e.OriginalSource;
+            var tb = e.OriginalSource as TextBox;
 
             tb.Select(tb.SelectionStart + tb.SelectionLength, 0);
 
             var cv = (CollectionView)CollectionViewSource.GetDefaultView(cmb.ItemsSource);
             cv.Filter = s =>
-                ((s as PassagePoint).Title).IndexOf(cmb.Text, StringComparison.CurrentCultureIgnoreCase) >= 0;
+                ((s as PassagePoint).Title).IndexOf(cmb.Text, 
+                StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         private void ButtonClickUpdate(object sender, RoutedEventArgs e)
         {
-            updateList();
+            UpdateList();
         }
 
         private void ButtonClickSave(object sender, RoutedEventArgs e)
@@ -57,13 +53,9 @@ namespace SkudParkSyncService.Pages
             foreach (ListItem item in ListBoxParkingRack.ItemsSource)
             {
                 if(item.PassagePoint != null)
-                {
                     AddDevice(item.Id, item.PassagePoint.Id);
-                }
                 else
-                {
                     RemoveDevice(item.Id);
-                }
             }
         }
 

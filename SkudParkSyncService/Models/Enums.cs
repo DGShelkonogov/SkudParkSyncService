@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SkudParkSyncService.Models
+﻿namespace SkudParkSyncService.Models
 {
     public enum DBConnectionStatus
     {
@@ -18,5 +12,4 @@ namespace SkudParkSyncService.Models
         LOCAL,
         REMOTE
     }
-
 }

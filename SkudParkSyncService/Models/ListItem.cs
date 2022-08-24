@@ -1,56 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SkudParkSyncService.Models
 {
     public class ListItem : INotifyPropertyChanged
     {
-        string title;
-        string id;
-        List<PassagePoint> items;
+        private string _title;
+        private string _id;
+        private  List<PassagePoint> _items;
 
-        PassagePoint passagePoint { get; set; }
+        private PassagePoint _passagePoint;
 
         public string Title
         {
-            get { return title; }
+            get { return _title; }
             set
             {
-                title = value;
+                _title = value;
                 OnPropertyChanged("Title");
             }
         }
 
         public string Id
         {
-            get { return id; }
+            get { return _id; }
             set
             {
-                id = value;
+                _id = value;
                 OnPropertyChanged("Id");
             }
         }
 
         public PassagePoint PassagePoint
         {
-            get { return passagePoint; }
+            get { return _passagePoint; }
             set
             {
-                passagePoint = value;
+                _passagePoint = value;
                 OnPropertyChanged("PassagePoint");
             }
         }
 
         public List<PassagePoint> Items
         {
-            get { return items; }
+            get { return _items; }
             set
             {
-                items = value;
+                _items = value;
                 OnPropertyChanged("Items");
             }
         }

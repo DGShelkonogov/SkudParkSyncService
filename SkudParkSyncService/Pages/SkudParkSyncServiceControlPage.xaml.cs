@@ -19,11 +19,11 @@ namespace SkudParkSyncService.Pages
             FillFuilds();
         }
 
-
         public void InitService()
         {
             var scServices = ServiceController.GetServices();
-            var serviceController = scServices.FirstOrDefault(x => x.ServiceName.ToLower().Equals("skudparksyncservice"));
+            var serviceController = scServices.FirstOrDefault(x => 
+                x.ServiceName.ToLower().Equals("skudparksyncservice"));
 
             if (serviceController != null)
             {
@@ -62,7 +62,8 @@ namespace SkudParkSyncService.Pages
             {
                 await Task.Run(() => {
                     _service.Controller.Start();
-                    _service.Controller.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
+                    _service.Controller.WaitForStatus(ServiceControllerStatus.Running,
+                        TimeSpan.FromSeconds(10));
                 });
             }
             else
@@ -77,7 +78,8 @@ namespace SkudParkSyncService.Pages
             {
                 await Task.Run(() => {
                     _service.Controller.Stop();
-                    _service.Controller.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(10));
+                    _service.Controller.WaitForStatus(ServiceControllerStatus.Stopped, 
+                        TimeSpan.FromSeconds(10));
                 });
             }
             else
@@ -86,7 +88,7 @@ namespace SkudParkSyncService.Pages
             FillFuilds();
         }
 
-        private async void ButtonClickFindService(object sender, RoutedEventArgs e)
+        private void ButtonClickFindService(object sender, RoutedEventArgs e)
         {
             InitService();
         }

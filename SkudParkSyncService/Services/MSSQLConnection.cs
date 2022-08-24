@@ -3,20 +3,16 @@ using SkudParkSyncService.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace SkudParkSyncService.Services
 {
     public class MSSQLConnection
     {
-
         public static SqlConnection GetConnection()
         {
             if (File.Exists(MainWindow.PathToAppsettings))
@@ -81,8 +77,7 @@ namespace SkudParkSyncService.Services
             return DBConnectionStatus.OPEN;
         }
 
-
-        public static ObservableCollection<ListItem> getParking(List<PassagePoint> cmb)
+        public static ObservableCollection<ListItem> GetParking(List<PassagePoint> passagePoints)
         {
             var list = new ObservableCollection<ListItem>();
             var connection = GetConnection();
@@ -109,22 +104,23 @@ namespace SkudParkSyncService.Services
 
                                 var obj = DeviceIdDictionary.GetValue(id);
 
-                                var point = (obj != null) ? cmb.FirstOrDefault(x => x.Id == obj.Value) : null;
+                                var point = (obj != null) ? 
+                                    passagePoints.FirstOrDefault(x => x.Id == obj.Value) : null;
 
                                 list.Add(new ListItem
                                 {
                                     Id = id,
                                     Title = name,
-                                    Items = new List<PassagePoint>(cmb),
+                                    Items = new List<PassagePoint>(passagePoints),
                                     PassagePoint = point
                                 });
                             }
                         }
                     }
                 }
-                catch (SqlException ex)
+                catch (SqlException e)
                 {
-                    MessageBox.Show(ex.Message);
+                    
                 }
                 connection.Close();
             }
