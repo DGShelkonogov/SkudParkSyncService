@@ -44,7 +44,6 @@ namespace SkudParkSyncService.Pages
 
         private async void ButtonClickCheckConnection(object sender, RoutedEventArgs e)
         {
-            var window = (MainWindow)Window.GetWindow(this);
             try
             {
                 var connectionStringBuilder = new FbConnectionStringBuilder
@@ -63,15 +62,11 @@ namespace SkudParkSyncService.Pages
                     connection.Close();
                 });
 
-               
-                window.EditFireBirdConnectionStatus(DBConnectionStatus.OPEN);
-
                 txtMessageLog.Text = "Подключение прошло успешно";
                 txtMessageLog.Foreground = Brushes.Green;
             }
             catch (Exception ex)
             {
-                window.EditFireBirdConnectionStatus(DBConnectionStatus.MISSING);
                 txtMessageLog.Text = ex.Message;
                 txtMessageLog.Foreground = Brushes.Red;
             }

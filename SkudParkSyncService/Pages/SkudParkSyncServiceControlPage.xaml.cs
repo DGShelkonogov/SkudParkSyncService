@@ -23,7 +23,7 @@ namespace SkudParkSyncService.Pages
         public void InitService()
         {
             var scServices = ServiceController.GetServices();
-            var serviceController = scServices.FirstOrDefault(x => x.ServiceName.ToLower().Equals("ts2"));
+            var serviceController = scServices.FirstOrDefault(x => x.ServiceName.ToLower().Equals("skudparksyncservice"));
 
             if (serviceController != null)
             {

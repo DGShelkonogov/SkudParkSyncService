@@ -86,7 +86,7 @@ namespace SkudParkSyncService.Services
                 {
                     // Открываем подключение
                     connection.OpenAsync();
-                    var command = new FbCommand("select d.id_dev, d.name from device d where d.id_reader is null", connection);
+                    var command = new FbCommand("select d.id_dev, d.name from device d where d.id_reader is not null", connection);
 
                     using (FbDataReader reader = command.ExecuteReader())
                     {

@@ -51,7 +51,6 @@ namespace SkudParkSyncService.Pages
 
         private async void ButtonClickCheckConnection(object sender, RoutedEventArgs e)
         {
-            var window = (MainWindow)Window.GetWindow(this);
             try
             {
                 var connectionStringBuilder = СreateSqlConnectionStringBuilder();
@@ -62,13 +61,11 @@ namespace SkudParkSyncService.Pages
                     connection.Close();
                 });
 
-                window.EditMSSSQLonnectionStatus(DBConnectionStatus.OPEN);
                 txtMessageLog.Text = "Подключение прошло успешно";
                 txtMessageLog.Foreground = Brushes.Green;
             }
             catch (Exception ex)
             {
-                window.EditMSSSQLonnectionStatus(DBConnectionStatus.MISSING);
                 txtMessageLog.Text = ex.Message;
                 txtMessageLog.Foreground = Brushes.Red;
             }
