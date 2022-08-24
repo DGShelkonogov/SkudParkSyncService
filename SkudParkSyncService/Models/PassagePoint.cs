@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace SkudParkSyncService.Models
 {
-    public class ListItem : INotifyPropertyChanged
+    public class PassagePoint : INotifyPropertyChanged
     {
         string title;
         string id;
-        List<PassagePoint> items;
-
-        PassagePoint passagePoint { get; set; }
 
         public string Title
         {
@@ -32,26 +29,6 @@ namespace SkudParkSyncService.Models
             {
                 id = value;
                 OnPropertyChanged("Id");
-            }
-        }
-
-        public PassagePoint PassagePoint
-        {
-            get { return passagePoint; }
-            set
-            {
-                passagePoint = value;
-                OnPropertyChanged("PassagePoint");
-            }
-        }
-
-        public List<PassagePoint> Items
-        {
-            get { return items; }
-            set
-            {
-                items = value;
-                OnPropertyChanged("Items");
             }
         }
 

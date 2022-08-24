@@ -1,8 +1,11 @@
 ﻿using FirebirdSql.Data.FirebirdClient;
 using Newtonsoft.Json;
+using SkudParkSyncService.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SkudParkSyncService.Services
 {
@@ -70,6 +73,43 @@ namespace SkudParkSyncService.Services
             }
 
             return DBConnectionStatus.OPEN;
+        }
+
+
+        public static List<PassagePoint> getPassagePoints()
+        {
+            var list = new List<PassagePoint>();
+            var connection = GetConnection();
+            if (connection != null)
+            {
+                try
+                {
+                    // Открываем подключение
+                    connection.OpenAsync();
+                    var command = new FbCommand("select d.id_dev, d.name from device d where d.id_reader is null", connection);
+
+                    using (FbDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string name = reader["NAME"].ToString();
+                            string idDev = reader["ID_DEV"].ToString();
+                            list.Add(new PassagePoint
+                            {
+                                Id = idDev,
+                                Title = name
+                            });
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                connection.Close();
+            }
+            return list;
         }
     }
 }

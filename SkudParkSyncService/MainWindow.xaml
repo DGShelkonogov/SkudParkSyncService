@@ -21,11 +21,10 @@
                 <Frame Source="Pages/MSSQLSettingsPage.xaml"/>
             </TabItem>
             <TabItem Header="Служба SkudParkSyncService">
-                <Frame Source="Pages/ConfigSkudParkSyncServicePage.xaml"/>
-                
+                <Frame Source="Pages/SkudParkSyncServiceControlPage.xaml"/>
             </TabItem>
             <TabItem Header="Конфигуратор службы SkudParkSyncService">
-                <Frame Source="Pages/SkudParkSyncServiceControlPage.xaml"/>
+                <Frame Source="Pages/ConfigSkudParkSyncServicePage.xaml"/>
             </TabItem>
         </TabControl>
         
@@ -48,7 +47,7 @@
             <TextBlock 
                 x:Name="txtDatabaseFireBirdStatus"
                 Grid.Column="1"
-                Text="Подключение успешно (FireBird)"
+                Text="Подключение не настроено (FireBird)"
                 VerticalAlignment="Center"
                 FontSize="16"/>
 
@@ -62,7 +61,7 @@
             <TextBlock 
                 x:Name="txtDatabaseMSSQLStatus"
                 Grid.Column="4"
-                Text="Подключение успешно (MSSQL)"
+                Text="Подключение не настроено (MSSQL)"
                 VerticalAlignment="Center"
                 FontSize="16"/>
         </Grid>

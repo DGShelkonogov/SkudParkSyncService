@@ -12,9 +12,9 @@ DEBUG;TRACE
 C:\Users\dana\source\repos\SkudParkSyncService\SkudParkSyncService\App.xaml
 5-1434598321
 
-152026631597
+16-307081205
 1591056606292
 MainWindow.xaml;Pages\ConfigSkudParkSyncServicePage.xaml;Pages\FireBirdSettingsPage.xaml;Pages\MSSQLSettingsPage.xaml;Pages\SkudParkSyncServiceControlPage.xaml;
 
-False
+True
 

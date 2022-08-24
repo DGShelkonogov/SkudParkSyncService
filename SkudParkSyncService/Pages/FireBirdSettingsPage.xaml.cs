@@ -1,6 +1,7 @@
 ﻿using FirebirdSql.Data.FirebirdClient;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using SkudParkSyncService.Models;
 using SkudParkSyncService.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -12,11 +13,6 @@ using System.Windows.Media;
 
 namespace SkudParkSyncService.Pages
 {
-    public enum ServerType
-    {
-        LOCAL,
-        REMOTE
-    }
 
 
     public partial class FireBirdSettingsPage : Page
@@ -48,6 +44,7 @@ namespace SkudParkSyncService.Pages
 
         private async void ButtonClickCheckConnection(object sender, RoutedEventArgs e)
         {
+            var window = (MainWindow)Window.GetWindow(this);
             try
             {
                 var connectionStringBuilder = new FbConnectionStringBuilder
@@ -66,11 +63,15 @@ namespace SkudParkSyncService.Pages
                     connection.Close();
                 });
 
+               
+                window.EditFireBirdConnectionStatus(DBConnectionStatus.OPEN);
+
                 txtMessageLog.Text = "Подключение прошло успешно";
                 txtMessageLog.Foreground = Brushes.Green;
             }
             catch (Exception ex)
             {
+                window.EditFireBirdConnectionStatus(DBConnectionStatus.MISSING);
                 txtMessageLog.Text = ex.Message;
                 txtMessageLog.Foreground = Brushes.Red;
             }
@@ -91,7 +92,7 @@ namespace SkudParkSyncService.Pages
             var result = JsonConvert.SerializeObject(connectionStringBuilder);
             await FireBirdConnections.SaveConnectionString(result);
             var window = (MainWindow)Window.GetWindow(this);
-            window.CheckConnectionStatus();
+            await window.CheckFireBirdConnectionStatus();
         }
 
         private void CmbServerTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -100,11 +101,11 @@ namespace SkudParkSyncService.Pages
 
             if (selectedServerType == ServerType.REMOTE)
             {
-                txtAddress.Visibility = Visibility.Visible;
+                txtAddress.IsEnabled = true;
             }
             else
             {
-                txtAddress.Visibility = Visibility.Hidden;
+                txtAddress.IsEnabled = false;
                 txtAddress.Text = "localhost";
             }
         }

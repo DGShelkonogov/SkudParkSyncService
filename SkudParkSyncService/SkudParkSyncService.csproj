@@ -203,7 +203,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Services\DBConnectionStatus.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\PassagePoint.cs" />
     <Compile Include="Services\FireBirdConnections.cs" />
     <Compile Include="Services\MSSQLConnection.cs" />
     <Page Include="MainWindow.xaml">

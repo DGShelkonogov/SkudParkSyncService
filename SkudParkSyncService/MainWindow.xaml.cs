@@ -2,6 +2,7 @@
 using SkudParkSyncService.Services;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -14,7 +15,8 @@ namespace SkudParkSyncService
         public MainWindow()
         {
             InitializeComponent();
-            CheckConnectionStatus();
+
+            CheckConnections();
 
             if (!File.Exists(PathToAppsettings))
             {
@@ -39,10 +41,26 @@ namespace SkudParkSyncService
             }
         }
 
-        public async void CheckConnectionStatus()
+        public async void CheckConnections()
         {
-            var status = await FireBirdConnections.CheckConnection();
+            await CheckFireBirdConnectionStatus();
+            await CheckMSSQLConnectionStatus();
+        }
 
+        public async Task CheckFireBirdConnectionStatus()
+        {
+            var statusFB = await FireBirdConnections.CheckConnection();
+            EditFireBirdConnectionStatus(statusFB);
+        }
+
+        public async Task CheckMSSQLConnectionStatus()
+        {
+            var statusMSSQL = await MSSQLConnection.CheckConnection();
+            EditMSSSQLonnectionStatus(statusMSSQL);
+        }
+
+        public void EditFireBirdConnectionStatus(DBConnectionStatus status)
+        {
             switch (status)
             {
                 case DBConnectionStatus.OPEN:
@@ -62,6 +80,32 @@ namespace SkudParkSyncService
                     {
                         ellipseDatabaseFireBirdStatus.Fill = Brushes.Orange;
                         txtDatabaseFireBirdStatus.Text = "Подключение к базе данных не настроено (Firebird)";
+                        break;
+                    }
+            }
+        }
+
+        public void EditMSSSQLonnectionStatus(DBConnectionStatus status)
+        {
+            switch (status)
+            {
+                case DBConnectionStatus.OPEN:
+                    {
+                        ellipseDatabaseMSSQLStatus.Fill = Brushes.Green;
+                        txtDatabaseMSSQLStatus.Text = "Подключение к базе данных настроено (MSSQL)";
+                        break;
+                    }
+                case DBConnectionStatus.MISSING:
+                    {
+                        ellipseDatabaseMSSQLStatus.Fill = Brushes.Red;
+                        txtDatabaseMSSQLStatus.Text = "Подключение к базе данных отсутствует (MSSQL)";
+                        break;
+                    }
+
+                case DBConnectionStatus.NOT_CONFIGURATED:
+                    {
+                        ellipseDatabaseMSSQLStatus.Fill = Brushes.Orange;
+                        txtDatabaseMSSQLStatus.Text = "Подключение к базе данных не настроено (MSSQL)";
                         break;
                     }
             }

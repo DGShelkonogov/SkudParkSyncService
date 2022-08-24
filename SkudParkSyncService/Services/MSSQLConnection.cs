@@ -2,10 +2,13 @@
 using SkudParkSyncService.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -79,50 +82,52 @@ namespace SkudParkSyncService.Services
         }
 
 
-        public static async Task<List<ListItem>> getParking()
+        public static ObservableCollection<ListItem> getParking(List<PassagePoint> cmb)
         {
-            var list = new List<ListItem>();
-            SqlConnectionStringBuilder stringBuilder = new SqlConnectionStringBuilder();
-            stringBuilder.Clear();
-            stringBuilder.DataSource = "localhost";
-            stringBuilder.InitialCatalog = "KalibrParking";
-            stringBuilder.UserID = "kalibr";
-            stringBuilder.Password = "Savin123Savin123";
-
-
-            // Создание подключения
-            SqlConnection connection = new SqlConnection(stringBuilder.ConnectionString);
-
-            //connection = GetConnection();
-            try
-            {   
-                // Открываем подключение
-                await connection.OpenAsync();
-                MessageBox.Show("Подключение открыто");
-                SqlCommand cmd = new SqlCommand("select * from Gates", connection);
-
-                using (DbDataReader reader = cmd.ExecuteReader())
+            var list = new ObservableCollection<ListItem>();
+            var connection = GetConnection();
+            if(connection != null)
+            {
+                try
                 {
-                    if (reader.HasRows)
+                    connection.OpenAsync();
+                    var cmd = new SqlCommand("select * from Gates", connection);
+
+                    string json = File.ReadAllText(MainWindow.PathToAppsettings);
+                    dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+                    var DeviceIdDictionary = jsonObj["WorkerOptions"]["DeviceIdDictionary"];
+
+                    using (DbDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.HasRows)
                         {
-                            int id = reader.GetInt32(0);
-                            string name = reader.GetString(1);
-                            list.Add(new ListItem 
-                            { 
-                                Id = id, 
-                                Title = name
-                            });
+                            while (reader.Read())
+                            {
+                                string id = reader.GetInt32(0).ToString();
+                                string name = reader.GetString(1);
+
+                                var obj = DeviceIdDictionary.GetValue(id);
+
+                                var point = (obj != null) ? cmb.FirstOrDefault(x => x.Id == obj.Value) : null;
+
+                                list.Add(new ListItem
+                                {
+                                    Id = id,
+                                    Title = name,
+                                    Items = new List<PassagePoint>(cmb),
+                                    PassagePoint = point
+                                });
+                            }
                         }
                     }
                 }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                connection.Close();
             }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            connection.Close();
             return list;
         }
     }

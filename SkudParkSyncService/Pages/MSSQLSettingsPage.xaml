@@ -8,8 +8,161 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Background="White"
       Title="MSSQLSettingsPage">
-
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
         
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+
+                <TextBlock
+					TextAlignment="Left"
+					Margin="5,10,0,5"
+					FontSize="12"
+					Text="Сервер"/>
+
+                <ComboBox
+					x:Name="cmbServerType"
+					Margin="5,30,5,0"
+					SelectedIndex="0"
+                    SelectionChanged="CmbServerTypeSelectionChanged"
+					HorizontalAlignment="Stretch"/>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <TextBlock
+					TextAlignment="Left"
+					Margin="5,10,5,0"
+					FontSize="12"
+					Text="Адрес"/>
+
+                <TextBox
+                    x:Name="txtAddress"
+					Margin="5,30,5,0"
+					HorizontalAlignment="Stretch"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <TextBlock
+					TextAlignment="Left"
+					Margin="5,10,5,0"
+					FontSize="12"
+					Text="База данных"/>
+
+            <TextBox
+                    x:Name="txtServerName"
+					Margin="5,30,5,0"
+					HorizontalAlignment="Stretch"/>
+        </Grid>
+        
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+    
+            <TextBlock
+					TextAlignment="Left"
+					Margin="5,10,5,0"
+					FontSize="12"
+					Text="Для входа в сервер использовать:"/>
+
+            <RadioButton 
+                x:Name="radioButtonWindows"
+                Grid.Column="1"
+                Margin="5,10,5,0"
+                IsChecked="True"
+                Checked="radioButtonCheckedWindows"
+                GroupName="Security"
+                Content="встроенную безопасность Windows"/>
+
+            <RadioButton 
+                x:Name="radioButtonNamePassword"
+                Grid.Column="2"
+                Margin="5,10,5,0"
+                Checked="RadioButtonCheckedNamePassword"
+                GroupName="Security"
+                Content="Имя и пароль"/>
+        </Grid>
+
+        <Grid Grid.Row="3" x:Name="gridUserPassword">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+
+            <Grid Grid.Column="0">
+                <TextBlock
+					TextAlignment="Left"
+					Margin="5,10,5,0"
+					FontSize="12"
+					Text="Пользователь"/>
+
+                <TextBox
+                    x:Name="txtUsername"
+					Margin="5,30,5,0"
+					HorizontalAlignment="Stretch"/>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <TextBlock
+					TextAlignment="Left"
+					Margin="5,10,5,0"
+					FontSize="12"
+					Text="Пароль"/>
+
+                <PasswordBox
+                    x:Name="txtPassword"
+					Margin="5,30,5,0"
+					HorizontalAlignment="Stretch"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <ScrollViewer VerticalScrollBarVisibility="Visible">
+                <TextBlock
+                    x:Name="txtMessageLog"
+					TextAlignment="Left"
+					Margin="5,10,5,0"
+					TextWrapping="Wrap"
+					FontSize="14"
+					/>
+            </ScrollViewer>
+
+        </Grid>
+
+        <Grid Grid.Row="6" Margin="0,0,0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button 
+                Grid.Column="0" 
+                Click="ButtonClickCheckConnection"
+                HorizontalAlignment="Stretch" 
+                Margin="5,0,5,0" 
+                Content="Проверить подключение"/>
+            <Button 
+                Grid.Column="1"
+                Click="ButtonClickAccept"
+                HorizontalAlignment="Stretch" 
+                Margin="5,0,5,0" 
+                Content="Принять"/>
+        </Grid>
     </Grid>
 </Page>
