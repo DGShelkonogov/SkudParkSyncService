@@ -31,16 +31,23 @@ namespace SkudParkSyncService.Pages
 
         private void ComboBoxTextChanged(object sender, TextChangedEventArgs e)
         {
-            var cmb = sender as ComboBox;
-            cmb.IsDropDownOpen = true;
-            var tb = e.OriginalSource as TextBox;
+            try
+            {
+                var cmb = sender as ComboBox;
+                cmb.IsDropDownOpen = true;
+                var tb = e.OriginalSource as TextBox;
 
-            tb.Select(tb.SelectionStart + tb.SelectionLength, 0);
+                tb.Select(tb.SelectionStart + tb.SelectionLength, 0);
 
-            var cv = (CollectionView)CollectionViewSource.GetDefaultView(cmb.ItemsSource);
-            cv.Filter = s =>
-                ((s as PassagePoint).Title).IndexOf(cmb.Text, 
-                StringComparison.CurrentCultureIgnoreCase) >= 0;
+                var cv = (CollectionView)CollectionViewSource.GetDefaultView(cmb.ItemsSource);
+                cv.Filter = s =>
+                    ((s as PassagePoint).Title).IndexOf(cmb.Text,
+                    StringComparison.CurrentCultureIgnoreCase) >= 0;
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         private void ButtonClickUpdate(object sender, RoutedEventArgs e)
@@ -93,11 +100,18 @@ namespace SkudParkSyncService.Pages
 
         private void ButtonClickRemove(object sender, RoutedEventArgs e)
         {
-            string id = ((sender as Button).DataContext as PassagePoint).Id;
-            foreach (var item in _listItems)
+            try
             {
-                if (item?.PassagePoint?.Id == id)
-                    item.PassagePoint = null;
+                string id = ((sender as Button).DataContext as PassagePoint).Id;
+                foreach (var item in _listItems)
+                {
+                    if (item?.PassagePoint?.Id == id)
+                        item.PassagePoint = null;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Не получается удалить. Ошибка: " + ex.Message);
             }
         }
     }

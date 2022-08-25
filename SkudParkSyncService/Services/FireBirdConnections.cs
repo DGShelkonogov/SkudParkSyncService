@@ -36,13 +36,20 @@ namespace SkudParkSyncService.Services
 
         public static async Task SaveConnectionString(string connectionStringJson)
         {
-            await Task.Run(() => {
-                string json = File.ReadAllText(MainWindow.PathToAppsettings);
-                dynamic jsonObj = JsonConvert.DeserializeObject(json);
-                jsonObj["WorkerOptions"]["SkudDbConnectionString"] = connectionStringJson;
-                string output = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-                File.WriteAllText(MainWindow.PathToAppsettings, output);
-            });
+            try
+            {
+                await Task.Run(() => {
+                    string json = File.ReadAllText(MainWindow.PathToAppsettings);
+                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
+                    jsonObj["WorkerOptions"]["SkudDbConnectionString"] = connectionStringJson;
+                    string output = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+                    File.WriteAllText(MainWindow.PathToAppsettings, output);
+                });
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         public async static Task<DBConnectionStatus> CheckConnection()
@@ -83,14 +90,14 @@ namespace SkudParkSyncService.Services
                 {
                     connection.OpenAsync();
                     var command = 
-                        new FbCommand("select d.id_dev, d.name from device d where d.id_reader is not null", 
+                        new FbCommand("select cast(d.name as varchar(50) character set UTF8), d.id_dev from device d where d.id_reader is not null", 
                         connection);
 
                     using (FbDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            string name = reader["NAME"].ToString();
+                            string name = reader[0].ToString();
                             string idDev = reader["ID_DEV"].ToString();
                             list.Add(new PassagePoint
                             {
@@ -107,6 +114,9 @@ namespace SkudParkSyncService.Services
                 }
                 connection.Close();
             }
+
+            list.Sort((left, right) => left.Title.CompareTo(right.Title));
+
             return list;
         }
     }
